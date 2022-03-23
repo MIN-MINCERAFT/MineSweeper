@@ -1,0 +1,9 @@
+name: MineSweeper
+author: MIN
+version: 1.0.0
+api: 4.0.0
+main: Flugins\MineSweeper\MineSweeper
+
+permissions:
+  ms.permission:
+    default: true
