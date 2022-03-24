@@ -49,6 +49,7 @@ final class MineSweeperInventory extends LibInventory
         }
         MineSweeper::$player_db[$who->getName()] = [
             'type' => $type,
+            'dig' => true, //dig, flag
             'item' => []
         ];
         for ($i=0; $i<$this->getSize(); $i++)
@@ -65,7 +66,7 @@ final class MineSweeperInventory extends LibInventory
     private function setUp(): void
     {
         $item = ItemFactory::getInstance()->get(ItemIds::PAINTING)->setCustomName('§l§o?');
-        $item->setNamedTag(CompoundTag::create()->setString('anything', 'tnt'));
+        $item->setNamedTag(CompoundTag::create()->setString('anything', 'mine'));
         for($i = 0; $i<$this->land_mine_amount; $i++)
         {
             $mt_rand = mt_rand(0,$this->getSize()-10);
@@ -81,15 +82,35 @@ final class MineSweeperInventory extends LibInventory
         }
     }
 
-    private function gameover(): void
+    private function gameover(Player $player): void
+    {
+        unset(MineSweeper::$player_db[$player->getName()]);
+    }
+
+    private function dig(Player $player, Item $item): void
+    {
+        $nametag= $item->getNamedTag();
+        if($nametag->getTag('anything') === null) return;
+        if($nametag->getTag('anything') === 'mine')
+        {
+            $this->gameover($player);
+        }
+    }
+
+    private function flag(Player $player, Item $item): void
     {
 
     }
 
     protected function onTransaction(InvLibAction $action): void
     {
+        $player = $action->getPlayer();
         $item = $action->getSourceItem();
-        $action->setCancelled();
-        if()
+        if(MineSweeper::$player_db[$player->getName()]['mod'])
+        {
+            $this->dig($player, $item);
+        }else{
+
+        }
     }
 }
