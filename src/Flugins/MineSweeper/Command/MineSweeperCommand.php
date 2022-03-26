@@ -9,9 +9,12 @@ use Flugins\MineSweeper\Inventory\MineSweeperMainInventory;
 use Flugins\MineSweeper\MineSweeper;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\item\ItemFactory;
+use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
 use pocketmine\world\Position;
 use skymin\InventoryLib\LibInvType;
+use function var_dump;
 
 final class MineSweeperCommand extends Command
 {

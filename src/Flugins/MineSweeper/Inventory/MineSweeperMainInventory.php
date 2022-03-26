@@ -62,6 +62,7 @@ final class MineSweeperMainInventory extends LibInventory
             $this->select();
         } else if ($item->getId() === 35) {
             $this->onClose($player);
+            $player->sendTitle('§l§6지뢰를 찾아라!','Find the Mines');
             MineSweeper::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($item, $player): void {
                 if ($item->getMeta() === 5) {
                     $player->setCurrentWindow(new MineSweeperInventory($this->holder, MineSweeper::EASY, LibInvType::CHEST()));
@@ -70,7 +71,7 @@ final class MineSweeperMainInventory extends LibInventory
                 } else if ($item->getMeta() === 14) {
                     $player->setCurrentWindow(new MineSweeperInventory($this->holder, MineSweeper::HARD, LibInvType::DOUBLE_CHEST()));
                 }
-            }), 9);
+            }), 14);
         }
     }
 
