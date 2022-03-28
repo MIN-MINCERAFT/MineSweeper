@@ -177,12 +177,6 @@ final class MineSweeperInventory extends LibInventory
         $nametag = $item->getNamedTag();
         if ($nametag->getTag('anything') === null) return;
         if ($nametag->getInt('flag') and $check) return;
-        if ($check) {
-            $this->sound($player, 'dig.grass');
-            if ($this->isWin()) {
-                $this->win($player);
-            }
-        }
         $anything = $nametag->getString('anything');
         if ($anything === 'mine') {
             $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::TNT)->setNamedTag($nametag)->setCustomName('§l§o§f[ ? ]'));
@@ -207,6 +201,12 @@ final class MineSweeperInventory extends LibInventory
             $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::BANNER_PATTERN)->setNamedTag($nametag)->setCustomName('§l§o§f[ ? ]'));
         } else if ($anything === '0') {
             $this->noanything($player, $slot, $check);
+        }
+        if ($check) {
+            $this->sound($player, 'dig.grass');
+            if ($this->isWin()) {
+                $this->win($player);
+            }
         }
     }
 
