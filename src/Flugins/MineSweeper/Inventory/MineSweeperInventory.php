@@ -145,24 +145,13 @@ final class MineSweeperInventory extends LibInventory
             $item = $this->getItem($i);
             $nametag = $item->getNamedTag();
             if ($item->getId() !== ItemIds::AIR) {
+                if ($item->getId() === ItemIds::PAINTING) return false;
                 if ($nametag->getTag('anything') !== null) {
                     if ($nametag->getString('anything') === 'mine') {
-                        if (!$nametag->getInt('flag')) {
-                            return false;
-                        }
+                        if (!$nametag->getInt('flag')) return false;
                     }
-                }
-            }
-        }
-        for ($i = 0; $i < $this->getSize(); $i++) {
-            $item = $this->getItem($i);
-            $nametag = $item->getNamedTag();
-            if ($item->getId() !== ItemIds::AIR) {
-                if ($nametag->getTag('anything') !== null) {
                     if ($nametag->getInt('flag')) {
-                        if ($nametag->getString('anything') !== 'mine') {
-                            return false;
-                        }
+                        if ($nametag->getString('anything') !== 'mine') return false;
                     }
                 }
             }
