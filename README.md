@@ -15,7 +15,7 @@
 ### How to use ?
 
 - Download the [resourcepack](https://github.com/Flugins/MineSweeper/blob/main/MineSweeperResourcePack.mcpack) and apply it
-- This need virions ([DataConfig](https://github.com/sky-min/DataConfig), [InventoryLib](https://github.com/sky-min/InventoryLib))
+- This need virion ([InventoryLib](https://github.com/sky-min/InventoryLib))
 
 ### Features
 
