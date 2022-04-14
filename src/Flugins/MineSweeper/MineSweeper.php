@@ -17,9 +17,7 @@ final class MineSweeper extends PluginBase
     public static array $player_db;
 
     const EASY = 4;
-
     const NORMAL = 6;
-
     const HARD = 10;
 
     protected function onLoad(): void
