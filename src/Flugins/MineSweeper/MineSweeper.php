@@ -19,7 +19,7 @@ final class MineSweeper extends PluginBase
     const EASY = 2;
     const NORMAL = 4;
     const HARD = 10;
-s
+
     protected function onLoad(): void
     {
         self::setInstance($this);
