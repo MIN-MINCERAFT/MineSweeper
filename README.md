@@ -23,7 +23,4 @@
 - [X] There is hard level, normal, noob level
 
 ### Image
-
-![image](https://user-images.githubusercontent.com/61784655/163455811-e1297489-450a-4aff-9205-934506956100.png)
-![image](https://user-images.githubusercontent.com/61784655/163455829-5a2f34d6-dc14-4d18-9c35-5e11f104085a.png)
 ![image](https://user-images.githubusercontent.com/61784655/163455873-49eb2e5a-76e1-4380-a6e2-71c3fe1e50f1.png)
