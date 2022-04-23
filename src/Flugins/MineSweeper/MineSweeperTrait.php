@@ -64,7 +64,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 2) {
+        }
+        else if ($pos === 2) {
             if ($type) {
                 $match = match ($slot) {
                     1 => 0,
@@ -130,7 +131,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 3) {
+        }
+        else if ($pos === 3) {
             if ($type) {
                 $match = match ($slot) {
                     0 => 1,
@@ -196,7 +198,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 4) {
+        }
+        else if ($pos === 4) {
             if ($type) {
                 $match = match ($slot) {
                     0 => 9,
@@ -251,7 +254,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 5) {
+        }
+        else if ($pos === 5) {
             if ($type) {
                 $match = match ($slot) {
                     10 => 0,
@@ -301,7 +305,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 6) {
+        }
+        else if ($pos === 6) {
             if ($type) {
                 $match = match ($slot) {
                     9 => 1,
@@ -351,7 +356,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 7) {
+        }
+        else if ($pos === 7) {
             if ($type) {
                 $match = match ($slot) {
                     1 => 9,
@@ -409,7 +415,8 @@ trait MineSweeperTrait
                     default => null
                 };
             }
-        } else if ($pos === 8) {
+        }
+        else if ($pos === 8) {
             if ($type) {
                 $match = match ($slot) {
                     0 => 10,

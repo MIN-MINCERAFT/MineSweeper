@@ -141,7 +141,7 @@ final class MineSweeperInventory extends LibInventory
 
     private function isWin(): bool
     {
-        for ($i = 0; $i < $this->getSize(); $i++) {
+        for ($i = 0; $i < $this->getSize()-9; $i++) {
             $item = $this->getItem($i);
             $nametag = $item->getNamedTag();
             if ($item->getId() !== ItemIds::AIR) {
@@ -238,14 +238,16 @@ final class MineSweeperInventory extends LibInventory
     private function flag(Player $player, CompoundTag $nametag, int $slot): void
     {
         if ($nametag->getTag('flag') === null) return;
-        if ($nametag->getInt('flag')) {
-            $this->sound($player, 'tile.piston.in');
-            $nametag->setInt('flag', 0);
-            $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::PAINTING, 0, 1, $nametag)->setCustomName('§l§o§f[ ? ]'));
-        } else {
-            $this->sound($player, 'tile.piston.out');
-            $nametag->setInt('flag', 1);
-            $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::CHEST_MINECART, 0, 1, $nametag)->setCustomName('§l§o§f[ ? ]'));
+        if($this->getItem($slot)->getId() === ItemIds::PAINTING or $this->getItem($slot)->getId() === ItemIds::CHEST_MINECART) {
+            if ($nametag->getInt('flag')) {
+                $this->sound($player, 'tile.piston.in');
+                $nametag->setInt('flag', 0);
+                $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::PAINTING, 0, 1, $nametag)->setCustomName('§l§o§f[ ? ]'));
+            } else {
+                $this->sound($player, 'tile.piston.out');
+                $nametag->setInt('flag', 1);
+                $this->setItem($slot, ItemFactory::getInstance()->get(ItemIds::CHEST_MINECART, 0, 1, $nametag)->setCustomName('§l§o§f[ ? ]'));
+            }
         }
     }
 
