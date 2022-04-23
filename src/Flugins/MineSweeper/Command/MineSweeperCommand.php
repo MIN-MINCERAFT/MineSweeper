@@ -29,7 +29,7 @@ final class MineSweeperCommand extends Command
         if (!$sender instanceof Player) return;
         if (!$this->testPermission($sender)) return;
         $position = $sender->getPosition();
-        $pos = new Position($position->getX(), $position->getY() + 3, $position->getZ(), $position->getWorld());
+        $pos = new Position($position->getX()+3, $position->getY(), $position->getZ(), $position->getWorld());
         $name = $sender->getName();
         if (isset(MineSweeper::$player_db[$name])) {
             if(MineSweeper::$player_db[$name]['type'])
