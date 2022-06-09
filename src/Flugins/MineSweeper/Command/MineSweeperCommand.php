@@ -9,12 +9,8 @@ use Flugins\MineSweeper\Inventory\MineSweeperMainInventory;
 use Flugins\MineSweeper\MineSweeper;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\item\ItemFactory;
-use pocketmine\item\ItemIds;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
-use skymin\InventoryLib\LibInvType;
-use function var_dump;
+use skymin\InventoryLib\inventory\InvType;
 
 final class MineSweeperCommand extends Command
 {
@@ -28,19 +24,17 @@ final class MineSweeperCommand extends Command
     {
         if (!$sender instanceof Player) return;
         if (!$this->testPermission($sender)) return;
-        $position = $sender->getPosition();
-        $pos = new Position($position->getX()+3, $position->getY(), $position->getZ(), $position->getWorld());
         $name = $sender->getName();
         if (isset(MineSweeper::$player_db[$name])) {
             if(MineSweeper::$player_db[$name]['type'])
             {
-                $inv = new MineSweeperInventory($pos, MineSweeper::NORMAL, LibInvType::CHEST(), true);
+                $inv = new MineSweeperInventory(MineSweeper::NORMAL, InvType::CHEST(), true);
             }else{
-                $inv = new MineSweeperInventory($pos, MineSweeper::NORMAL, LibInvType::DOUBLE_CHEST(), true);
+                $inv = new MineSweeperInventory(MineSweeper::NORMAL, InvType::DOUBLE_CHEST(), true);
             }
             $inv->send($sender);
         } else {
-            $inv = new MineSweeperMainInventory($pos);
+            $inv = new MineSweeperMainInventory();
             $inv->send($sender);
         }
     }

@@ -11,19 +11,18 @@ use pocketmine\item\ItemIds;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\network\mcpe\protocol\PlaySoundPacket;
 use pocketmine\player\Player;
-use pocketmine\world\Position;
-use skymin\InventoryLib\InvLibAction;
-use skymin\InventoryLib\LibInventory;
-use skymin\InventoryLib\LibInvType;
+use skymin\InventoryLib\action\InventoryAction;
+use skymin\InventoryLib\inventory\BaseInventory;
+use skymin\InventoryLib\inventory\InvType;
 use function mt_rand;
 
-final class MineSweeperInventory extends LibInventory
+final class MineSweeperInventory extends BaseInventory
 {
     private bool $no_work = false;
 
-    public function __construct(Position $holder, private int $land_mine_amount, private LibInvType $type, private bool $isset = false)
+    public function __construct(private int $land_mine_amount, private InvType $type, private bool $isset = false)
     {
-        parent::__construct($this->type, $holder, '지뢰찾기');
+        parent::__construct($this->type, '지뢰찾기');
     }
 
     public function onOpen(Player $who): void
@@ -57,7 +56,7 @@ final class MineSweeperInventory extends LibInventory
 
     private function setUp(Player $player): void
     {
-        if ($this->type === LibInvType::CHEST()) {
+        if ($this->type === InvType::CHEST()) {
             $type = true;
         } else {
             $type = false;
@@ -251,26 +250,25 @@ final class MineSweeperInventory extends LibInventory
         }
     }
 
-    protected function onTransaction(InvLibAction $action): void
+    public function onAction(InventoryAction $action): bool
     {
         $player = $action->getPlayer();
         $item = $action->getSourceItem();
         $slot = $action->getSlot();
-        $action->setCancelled();
         if ($item->getId() === ItemIds::DRIED_KELP) {
             $this->gameover($player);
             $this->onClose($player);
-            return;
+            return false;
         }
         if (isset(MineSweeper::$player_db[$player->getName()])) {
             if ($item->getId() === ItemIds::DIAMOND_SHOVEL and $slot === $this->getSize() - 6) {
                 MineSweeper::$player_db[$player->getName()]['dig'] = false;
                 $this->setItem($this->getSize() - 6, ItemFactory::getInstance()->get(ItemIds::CHEST_MINECART)->setCustomName('§l§6§o지뢰 파기 모드로 바꾸기'));
-                return;
+                return false;
             } else if ($item->getId() === ItemIds::CHEST_MINECART and $slot === $this->getSize() - 6) {
                 MineSweeper::$player_db[$player->getName()]['dig'] = true;
                 $this->setItem($this->getSize() - 6, ItemFactory::getInstance()->get(ItemIds::DIAMOND_SHOVEL)->setCustomName('§l§6§o깃발 설치 모드로 바꾸기'));
-                return;
+                return false;
             }
             if (MineSweeper::$player_db[$player->getName()]['dig']) {
                 $this->dig($player, $item, $slot);
@@ -278,5 +276,6 @@ final class MineSweeperInventory extends LibInventory
                 $this->flag($player, $item->getNamedTag(), $slot);
             }
         }
+        return false;
     }
 }

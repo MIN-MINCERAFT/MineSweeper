@@ -8,17 +8,16 @@ use Flugins\MineSweeper\MineSweeper;
 use pocketmine\item\ItemFactory;
 use pocketmine\player\Player;
 use pocketmine\scheduler\ClosureTask;
-use pocketmine\world\Position;
-use skymin\InventoryLib\InvLibAction;
-use skymin\InventoryLib\LibInventory;
-use skymin\InventoryLib\LibInvType;
+use skymin\InventoryLib\action\InventoryAction;
+use skymin\InventoryLib\inventory\BaseInventory;
+use skymin\InventoryLib\inventory\InvType;
 
-final class MineSweeperMainInventory extends LibInventory
+final class MineSweeperMainInventory extends BaseInventory
 {
 
-    public function __construct(private Position $holder)
+    public function __construct()
     {
-        parent::__construct(LibInvType::HOPPER(), $this->holder, '지뢰찾기');
+        parent::__construct(InvType::HOPPER(), '지뢰찾기');
     }
 
     public function onOpen(Player $who): void
@@ -51,10 +50,9 @@ final class MineSweeperMainInventory extends LibInventory
         $this->setItem(0, ItemFactory::getInstance()->get(63)->setCustomName('§l§o§6메인으로 가기'));
     }
 
-    protected function onTransaction(InvLibAction $action): void
+    public function onAction(InventoryAction $action): bool
     {
         $player = $action->getPlayer();
-        $action->setCancelled();
         $item = $action->getSourceItem();
         if ($item->getId() === 63) {
             $this->main();
@@ -65,13 +63,14 @@ final class MineSweeperMainInventory extends LibInventory
             $player->sendTitle('§l§6지뢰를 찾아라!', 'Find the Mines');
             MineSweeper::getInstance()->getScheduler()->scheduleDelayedTask(new ClosureTask(function () use ($item, $player): void {
                 if ($item->getMeta() === 5) {
-                    $player->setCurrentWindow(new MineSweeperInventory($this->holder, MineSweeper::EASY, LibInvType::CHEST()));
+                    (new MineSweeperInventory(MineSweeper::EASY, InvType::CHEST()))->send($player);
                 } else if ($item->getMeta() === 4) {
-                    $player->setCurrentWindow(new MineSweeperInventory($this->holder, MineSweeper::NORMAL, LibInvType::DOUBLE_CHEST()));
+                    (new MineSweeperInventory( MineSweeper::NORMAL, InvType::DOUBLE_CHEST()))->send($player);
                 } else if ($item->getMeta() === 14) {
-                    $player->setCurrentWindow(new MineSweeperInventory($this->holder, MineSweeper::HARD, LibInvType::DOUBLE_CHEST()));
+                    (new MineSweeperInventory( MineSweeper::HARD, InvType::DOUBLE_CHEST()))->send($player);
                 }
             }), 14);
         }
+        return false;
     }
 }

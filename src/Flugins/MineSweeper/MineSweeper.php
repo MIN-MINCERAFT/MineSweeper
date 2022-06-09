@@ -7,7 +7,7 @@ namespace Flugins\MineSweeper;
 use Flugins\MineSweeper\Command\MineSweeperCommand;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\SingletonTrait;
-use skymin\InventoryLib\InvLibManager;
+use skymin\InventoryLib\InvLibHandler;
 
 final class MineSweeper extends PluginBase
 {
@@ -30,6 +30,6 @@ final class MineSweeper extends PluginBase
         $this->getServer()->getCommandMap()->registerAll('MineSweeper', [
             new MineSweeperCommand()
         ]);
-        InvLibManager::register($this);
+        InvLibHandler::register($this);
     }
 }
